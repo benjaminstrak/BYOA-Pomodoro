@@ -14,10 +14,14 @@ body {
 }
 
 .timer-container {
-    background-color: #fff9f0;
+    background: #FEFCEC;
     padding: 2rem;
     border-radius: 1.5rem;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border: 2px solid rgba(152, 151, 141, 0.10);
+    box-shadow: 
+        60px 60px 55.4px 20px rgba(0, 0, 0, 0.25),
+        0px 8px 4px 0px rgba(255, 255, 255, 0.25) inset,
+        0px -8px 4px 0px rgba(0, 0, 0, 0.25) inset;
     width: 400px;
     text-align: center;
     position: relative;
@@ -50,6 +54,7 @@ h1 {
     align-items: flex-start;
     gap: 3rem;
     margin-top: 3rem;
+    margin-bottom: 2rem;
     position: relative;
 }
 
@@ -408,8 +413,9 @@ h1, .timer, .mode {
     position: relative;
     width: 150px;
     height: 36px;
-    background-color: rgba(0, 0, 0, 0.1);
     border-radius: 25px;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
 .slider-track {
@@ -419,6 +425,28 @@ h1, .timer, .mode {
     right: 0;
     bottom: 0;
     border-radius: 25px;
+}
+
+.slider-track::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(0, 0, 0, 0.1) 25%,
+        transparent 50%,
+        transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: waveRight 4s ease-in-out infinite;
+}
+
+.slider-track[data-state="pause"]::after {
+    animation: waveLeft 4s ease-in-out infinite;
 }
 
 .slider-thumb {
@@ -516,4 +544,22 @@ h1, .timer, .mode {
 /* Add hover animation to reset button dot */
 .control-btn:hover::before {
     animation: blink 0.5s ease-in-out 1;  /* Run once */
+}
+
+@keyframes waveRight {
+    0% {
+        transform: translateX(-200%);
+    }
+    100% {
+        transform: translateX(200%);
+    }
+}
+
+@keyframes waveLeft {
+    0% {
+        transform: translateX(200%);
+    }
+    100% {
+        transform: translateX(-200%);
+    }
 } 

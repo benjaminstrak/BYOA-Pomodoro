@@ -9,6 +9,7 @@ class PomodoroTimer {
         this.sliderContainer = document.querySelector('.slider-container');
         this.sliderThumb = document.querySelector('.slider-thumb');
         this.resetBtn = document.querySelector('.control-btn.reset');
+        this.sliderTrack = document.querySelector('.slider-track');
         
         // Initialize slider state
         this.isSliding = false;
@@ -18,13 +19,21 @@ class PomodoroTimer {
 
         // Event listeners
         this.sliderThumb.addEventListener('mousedown', this.startSliding.bind(this));
+        this.sliderThumb.addEventListener('touchstart', this.startSliding.bind(this));
+        
         document.addEventListener('mousemove', this.slide.bind(this));
+        document.addEventListener('touchmove', this.slide.bind(this));
+        
         document.addEventListener('mouseup', this.stopSliding.bind(this));
+        document.addEventListener('touchend', this.stopSliding.bind(this));
         this.resetBtn.addEventListener('click', () => this.reset());
 
         // Initialize position
         this.sliderThumb.style.left = `${this.sliderX}px`;
         this.sliderThumb.dataset.state = 'pause';
+        
+        // Initialize track state
+        this.sliderTrack.dataset.state = 'pause';
     }
     
     formatTime(seconds) {
@@ -63,6 +72,13 @@ class PomodoroTimer {
         this.pause();
         this.timeLeft = 25 * 60;
         this.updateDisplay();
+        
+        // Move slider to pause position
+        this.sliderX = this.maxSlide;  // Set to rightmost position
+        this.sliderThumb.style.transition = 'left 0.3s ease';
+        this.sliderThumb.style.left = `${this.sliderX}px`;
+        this.sliderThumb.dataset.state = 'pause';
+        this.sliderTrack.dataset.state = 'pause';
     }
     
     playAlarm() {
@@ -71,37 +87,37 @@ class PomodoroTimer {
     }
 
     startSliding(e) {
-        console.log('Start sliding');  // Debug log
         this.isSliding = true;
-        this.startX = e.clientX - this.sliderThumb.offsetLeft;
+        const position = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+        this.startX = position - this.sliderThumb.offsetLeft;
         this.sliderThumb.style.transition = 'none';
     }
 
     slide(e) {
         if (!this.isSliding) return;
         e.preventDefault();
-        console.log('Sliding');  // Debug log
 
-        const x = e.clientX - this.startX;
+        const position = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+        const x = position - this.startX;
         const min = 0;
         const max = this.maxSlide;
         
         this.sliderX = Math.max(min, Math.min(max, x));
         this.sliderThumb.style.left = `${this.sliderX}px`;
 
-        // Update state based on position
         if (this.sliderX > max/2) {
             this.pause();
             this.sliderThumb.dataset.state = 'pause';
+            this.sliderTrack.dataset.state = 'pause';
         } else {
             this.start();
             this.sliderThumb.dataset.state = 'start';
+            this.sliderTrack.dataset.state = 'start';
         }
     }
 
     stopSliding() {
         if (!this.isSliding) return;
-        console.log('Stop sliding');  // Debug log
         
         this.isSliding = false;
         this.sliderThumb.style.transition = 'left 0.3s ease';
