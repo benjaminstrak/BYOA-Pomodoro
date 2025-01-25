@@ -8,13 +8,23 @@
 </head>
 <body>
     <div class="timer-container">
-        <div class="speaker-dots"></div>
         <h1>TIME TO FOCUS</h1>
         <div class="time-display">25:00</div>
         <div class="controls">
-            <button class="control-btn start">START</button>
-            <button class="control-btn pause">PAUSE</button>
-            <button class="control-btn reset">RESET</button>
+            <div class="control-wrapper">
+                <div class="slider-container">
+                    <div class="slider-track"></div>
+                    <button class="slider-thumb"></button>
+                </div>
+                <div class="slider-labels">
+                    <span class="control-label">START</span>
+                    <span class="control-label">PAUSE</span>
+                </div>
+            </div>
+            <div class="control-wrapper">
+                <button class="control-btn reset"></button>
+                <div class="control-label">RESET</div>
+            </div>
         </div>
     </div>
     <script src="script.js"></script>

@@ -20,15 +20,7 @@ body {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     width: 400px;
     text-align: center;
-}
-
-.speaker-dots {
-    width: 40px;
-    height: 40px;
-    margin: 0 auto 1rem;
-    background-image: radial-gradient(circle, #333 2px, transparent 2px);
-    background-size: 8px 8px;
-    opacity: 0.7;
+    position: relative;
 }
 
 h1 {
@@ -36,7 +28,11 @@ h1 {
     font-weight: 500;
     letter-spacing: 0.1em;
     color: #333;
+    margin-top: 1rem;
     margin-bottom: 2rem;
+    font-family: 'OCR A', monospace;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid #ddd;
 }
 
 .time-display {
@@ -50,47 +46,48 @@ h1 {
 
 .controls {
     display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-    margin-top: 2rem;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 3rem;
+    margin-top: 3rem;
+    position: relative;
 }
 
 .control-btn {
-    flex: 1;
+    width: 36px;
+    height: 36px;
     border: none;
-    background: none;
-    cursor: pointer;
-    padding: 1rem;
-    font-size: 0.8rem;
-    letter-spacing: 0.1em;
+    background: #000;
+    border-radius: 50%;
     position: relative;
+    cursor: pointer;
 }
 
 .control-btn::before {
     content: '';
     position: absolute;
-    top: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 12px;
-    height: 12px;
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .start::before {
-    background-color: #4CAF50;
+    background-color: #4CAF50;  /* Green dot */
 }
 
 .pause::before {
-    background-color: #f44336;
+    background-color: #FFA500;  /* Orange dot */
 }
 
 .reset::before {
-    background-color: #ff9800;
+    background-color: #f44336;  /* Red dot */
 }
 
 .control-btn:hover {
-    opacity: 0.8;
+    opacity: 0.9;
 }
 
 /* .container {
@@ -361,4 +358,162 @@ h1, .timer, .mode {
 @font-face {
     font-family: 'OCR A';
     src: url('fonts/OCR-a___.ttf') format('truetype');
+}
+
+.control-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.4rem;
+    position: relative;
+}
+
+.control-wrapper:first-child {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Add this new style for the tray */
+.controls::before {
+    content: '';
+    position: absolute;
+    height: 2px;
+    background-color: #333;
+    top: -15px;
+    left: 18px;  /* Adjust based on START position */
+    right: 18px; /* Adjust based on RESET position */
+}
+
+.control-label {
+    font-family: 'OCR A', monospace;
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
+    color: #333;
+    position: relative;
+}
+
+.control-label::before {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 10px;
+    background-color: #333;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.slider-container {
+    position: relative;
+    width: 150px;
+    height: 36px;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 25px;
+}
+
+.slider-track {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 25px;
+}
+
+.slider-thumb {
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    background: #000;
+    border: none;
+    border-radius: 50%;
+    cursor: grab;
+    transition: left 0.3s ease;
+    touch-action: none;
+    -webkit-user-select: none;
+    user-select: none;
+    z-index: 10;
+}
+
+.slider-thumb:active {
+    cursor: grabbing;
+}
+
+.slider-thumb::before {
+    content: '';
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #4CAF50;
+}
+
+.slider-thumb[data-state="pause"]::before {
+    background-color: #FFA500;
+}
+
+.slider-labels {
+    display: flex;
+    justify-content: space-between;
+    width: 150px;
+    margin-top: 0;
+    padding: 0px 0px;
+    position: relative;
+}
+
+/* Add this new style for the horizontal line */
+.slider-labels::before {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 2px;
+    background-color: #333;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Remove these blocks that create the vertical lines */
+.slider-labels span {
+    position: relative;
+}
+
+/* Remove this block that creates the vertical lines */
+.slider-labels span::before {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 10px;
+    background-color: #333;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+}
+
+/* Remove old button styles */
+.control-wrapper:first-child::after,
+.controls::before {
+    display: none;
+}
+
+/* Add the keyframe animation */
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+/* Add hover animation to slider thumb dot */
+.slider-thumb:hover::before {
+    animation: blink 0.5s ease-in-out 1;  /* Run once */
+}
+
+/* Add hover animation to reset button dot */
+.control-btn:hover::before {
+    animation: blink 0.5s ease-in-out 1;  /* Run once */
 } 
