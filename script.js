@@ -43,7 +43,9 @@ class PomodoroTimer {
     }
     
     updateDisplay() {
-        this.timeDisplay.textContent = this.formatTime(this.timeLeft);
+        const timeString = this.formatTime(this.timeLeft);
+        this.timeDisplay.textContent = timeString;
+        document.title = `${timeString} - Time to Focus`;
     }
     
     start() {

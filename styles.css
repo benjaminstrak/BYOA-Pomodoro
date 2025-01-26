@@ -562,4 +562,49 @@ h1, .timer, .mode {
     100% {
         transform: translateX(-200%);
     }
+}
+
+/* Add these media queries at the end of the file */
+@media (max-width: 480px) {
+    .timer-container {
+        width: 90%;  /* Instead of fixed 400px */
+        padding: 1.5rem;  /* Smaller padding */
+        margin: 1rem;
+        box-shadow: 
+            30px 30px 27.7px 10px rgba(0, 0, 0, 0.25),
+            0px 8px 4px 0px rgba(255, 255, 255, 0.25) inset,
+            0px -8px 4px 0px rgba(0, 0, 0, 0.25) inset;
+    }
+
+    h1 {
+        font-size: 0.9rem;
+        margin-top: 0.5rem;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1.5rem;
+    }
+
+    .time-display {
+        font-size: 3.5rem;  /* Slightly smaller time display */
+        margin: 1.5rem 0;
+    }
+
+    .controls {
+        gap: 2rem;  /* Reduce gap between controls */
+        margin-top: 2rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .control-wrapper {
+        gap: 2rem;  /* Reduce vertical spacing */
+    }
+
+    .control-label {
+        font-size: 0.8rem;  /* Smaller label text */
+    }
+
+    /* Prevent text selection on mobile */
+    * {
+        -webkit-tap-highlight-color: transparent;
+        user-select: none;
+    }
 } 
