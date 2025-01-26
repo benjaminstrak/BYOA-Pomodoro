@@ -362,7 +362,7 @@ h1, .timer, .mode {
 
 @font-face {
     font-family: 'OCR A';
-    src: url('fonts/OCR-a___.ttf') format('truetype');
+    src: url('./Fonts/OCR-a___.ttf') format('truetype');
 }
 
 .control-wrapper {
