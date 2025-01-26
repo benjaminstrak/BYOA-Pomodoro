@@ -34,6 +34,10 @@ class PomodoroTimer {
         
         // Initialize track state
         this.sliderTrack.dataset.state = 'pause';
+
+        // Get all sound elements
+        this.clickSounds = [...document.querySelectorAll('.click-sound')];
+        this.resetSounds = [...document.querySelectorAll('.reset-sound')];
     }
     
     formatTime(seconds) {
@@ -75,8 +79,10 @@ class PomodoroTimer {
         this.timeLeft = 25 * 60;
         this.updateDisplay();
         
+        this.playResetSound();
+        
         // Move slider to pause position
-        this.sliderX = this.maxSlide;  // Set to rightmost position
+        this.sliderX = this.maxSlide;
         this.sliderThumb.style.transition = 'left 0.3s ease';
         this.sliderThumb.style.left = `${this.sliderX}px`;
         this.sliderThumb.dataset.state = 'pause';
@@ -107,6 +113,12 @@ class PomodoroTimer {
         this.sliderX = Math.max(min, Math.min(max, x));
         this.sliderThumb.style.left = `${this.sliderX}px`;
 
+        // Play sound when state changes
+        const newState = this.sliderX > max/2 ? 'pause' : 'start';
+        if (newState !== this.sliderThumb.dataset.state) {
+            this.playClickSound();
+        }
+
         if (this.sliderX > max/2) {
             this.pause();
             this.sliderThumb.dataset.state = 'pause';
@@ -127,6 +139,20 @@ class PomodoroTimer {
         const snapPosition = this.sliderX > this.maxSlide/2 ? this.maxSlide : 0;
         this.sliderThumb.style.left = `${snapPosition}px`;
         this.sliderX = snapPosition;
+    }
+
+    playRandomSound(sounds) {
+        const sound = sounds[Math.floor(Math.random() * sounds.length)];
+        sound.currentTime = 0;
+        sound.play();
+    }
+
+    playClickSound() {
+        this.playRandomSound(this.clickSounds);
+    }
+
+    playResetSound() {
+        this.playRandomSound(this.resetSounds);
     }
 }
 
